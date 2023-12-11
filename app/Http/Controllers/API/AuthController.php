@@ -34,6 +34,7 @@ class AuthController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
+                'username' => 'required|unique:users,username',
                 'email' => 'required|email|unique:users',
                 'password' => 'required',
                 'gender' => 'required|in:0,1,'
@@ -50,12 +51,12 @@ class AuthController extends Controller
             }
 
             $data = new User();
-            // $data->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
             $data->name = $request->name;
             $data->email = $request->email;
             $data->password = Hash::make($request->password);
             $data->role = 2;
             $data->gender = $request->gender;
+            $data->username = $request->username;
             $data->save();
 
             return response()->json([
