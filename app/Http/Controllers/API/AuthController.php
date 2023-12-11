@@ -35,7 +35,8 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required|email|unique:users',
-                'password' => 'required'
+                'password' => 'required',
+                'gender' => 'required|in:0,1,'
             ]);
 
             if ($validator->fails()) {
@@ -49,26 +50,18 @@ class AuthController extends Controller
             }
 
             $data = new User();
-            $data->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
+            // $data->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
             $data->name = $request->name;
             $data->email = $request->email;
             $data->password = Hash::make($request->password);
             $data->role = 2;
+            $data->gender = $request->gender;
             $data->save();
-
-            $data_token = User::findOrFail($data->id);
-            $tokenResult = $data_token->createToken('authToken')->plainTextToken;
-            $data_token->remember_token = $tokenResult;
-            $data_token->save();
 
             return response()->json([
                 'meta' => [
                     'status' => 'success',
-                    'message' => 'Please Save Your Token for access the data'
-                ],
-                'data' => [
-                    'access_token' => $tokenResult,
-                    'token_type' => 'Bearer',
+                    'message' => 'Success Register'
                 ]
             ], 201);
         } catch (Exception $error) {

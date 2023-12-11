@@ -4,25 +4,32 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->id = Str::uuid();
+        });
+    }
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
+        'gender',
     ];
 
     /**
@@ -58,5 +65,55 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getIncrementing()
+    {
+        return false;
+    }
+
+    /**
+     * Get the format of the primary key.
+     *
+     * @return string
+     */
+    public function getKeyType()
+    {
+        return 'string';
+    }
+
+    public function follower()
+    {
+        return $this->belongsTo(Follower::class);
+    }
+
+    public function following()
+    {
+        return $this->belongsTo(Following::class);
+    }
+
+    public function product_share()
+    {
+        return $this->belongsTo(ProductShare::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function like_post()
+    {
+        return $this->belongsTo(LikePost::class);
+    }
+
+    public function comment_post()
+    {
+        return $this->belongsTo(CommentPost::class);
+    }
+
+    public function share_post()
+    {
+        return $this->belongsTo(SharetPost::class);
     }
 }
