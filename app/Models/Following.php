@@ -5,16 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Following extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'follower_detail';
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($data) {
+            $data->id = Str::uuid();
+        });
+    }
+
+    protected $table = 'following_detail';
     protected $fillable = [
         'user_id',
         'following_id',
     ];
+
+    public function getKeyType()
+    {
+        return 'string';
+    }
 
     public function user_id()
     {

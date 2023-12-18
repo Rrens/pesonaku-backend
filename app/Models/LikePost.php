@@ -5,10 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class LikePost extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($data) {
+            $data->id = Str::uuid();
+        });
+    }
 
     protected $table = 'like_post';
     protected $fillable = [
@@ -16,6 +26,11 @@ class LikePost extends Model
         'user_id',
         'path',
     ];
+
+    public function getKeyType()
+    {
+        return 'string';
+    }
 
     public function post()
     {

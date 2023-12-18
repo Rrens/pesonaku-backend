@@ -19,8 +19,8 @@ class User extends Authenticatable implements JWTSubject
     {
         parent::boot();
 
-        static::creating(function ($user) {
-            $user->id = Str::uuid();
+        static::creating(function ($data) {
+            $data->id = Str::uuid();
         });
     }
 

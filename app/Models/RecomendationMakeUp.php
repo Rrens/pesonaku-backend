@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Follower extends Model
+class RecomendationMakeUp extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected static function boot()
     {
@@ -20,10 +19,10 @@ class Follower extends Model
         });
     }
 
-    protected $table = 'follower_detail';
+    protected $table = 'recomendation_make_ups';
     protected $fillable = [
-        'user_id',
-        'follower_id',
+        'color_id',
+        'product_id',
     ];
 
     public function getKeyType()
@@ -31,13 +30,13 @@ class Follower extends Model
         return 'string';
     }
 
-    public function user_id()
+    public function color()
     {
-        return $this->hasMany(User::class, 'id', 'user_id');
+        return $this->hasMany(Colors::class, 'id', 'color_id');
     }
 
-    public function follower_id()
+    public function product()
     {
-        return $this->hasMany(User::class, 'id', 'user_id');
+        return $this->hasMany(Products::class, 'id', 'product_id');
     }
 }

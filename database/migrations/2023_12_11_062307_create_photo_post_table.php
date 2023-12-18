@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('photo_post', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('post_id');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onUpdate('cascade')->onDelete('cascade');
             $table->longText('path');
             $table->softDeletes();
             $table->timestamps();

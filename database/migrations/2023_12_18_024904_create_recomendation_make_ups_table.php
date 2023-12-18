@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('recomendation_make_ups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id');
-            $table->foreignUuid('product_id')->nullable();
-            $table->longText('caption');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignUuid('color_id');
+            // $table->foreignUuid('product_color_id');
+            $table->foreignUuid('product_id');
+            $table->foreign('color_id')->references('id')->on('colors')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('product_color_id')->references('id')->on('products_color')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feeds');
+        Schema::dropIfExists('recomendation_make_ups');
     }
 };

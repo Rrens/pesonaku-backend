@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->longText('description');
             $table->double('price');
+            $table->string('product_type');
+            $table->string('product_hex');
             $table->softDeletes();
             $table->timestamps();
         });

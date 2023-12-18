@@ -1,0 +1,9 @@
+Product{
+    nama,
+    warna,
+    kategori (l/p)
+}
+
+rekomendasi{
+    gender
+}
