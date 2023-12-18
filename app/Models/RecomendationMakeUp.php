@@ -23,6 +23,7 @@ class RecomendationMakeUp extends Model
     protected $fillable = [
         'color_id',
         'product_id',
+        'gender',
     ];
 
     public function getKeyType()

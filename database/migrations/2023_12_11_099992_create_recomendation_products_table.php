@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('recomendation_products', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->boolean('gender');
             $table->foreignUuid('color_id');
             // $table->foreignUuid('product_color_id');
             $table->foreignUuid('product_id');

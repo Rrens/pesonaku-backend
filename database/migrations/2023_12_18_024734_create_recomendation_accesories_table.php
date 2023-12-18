@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('recomendation_accesories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('color_id');
+            $table->boolean('gender');
             // $table->foreignUuid('product_color_id');
             $table->foreignUuid('product_id');
             $table->foreign('color_id')->references('id')->on('colors')->onUpdate('cascade')->onDelete('cascade');
